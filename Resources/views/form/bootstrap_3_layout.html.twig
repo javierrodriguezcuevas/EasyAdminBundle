@@ -363,8 +363,11 @@
                 {{ form_row(form.delete, { label: 'action.delete' }) }}
             </div>
             {% endif %}
+            {% if download_uri|default('') is not empty and required is same as (true) %}
+                {% set required = false %}
+            {% endif %}
             <div class="{{ form.delete is defined ? 'col-sm-9 col-md-10' : 'col-sm-12' }}">
-                {{ form_widget(form.file) }}
+                {{ form_widget(form.file, {'required': required}) }}
             </div>
         </div>
     </div>
@@ -374,7 +377,10 @@
 {% block vich_image_widget %}
 {% spaceless %}
     <div class="easyadmin-vich-image">
-        {{ form_widget(form.file) }}
+        {% if download_uri|default('') is not empty and required is same as (true) %}
+            {% set required = false %}
+        {% endif %}
+        {{ form_widget(form.file, {'required': required}) }}
         {% if form.delete is defined %}
             {{ form_row(form.delete, { label: 'action.delete' }) }}
         {% endif %}
